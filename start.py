@@ -3,17 +3,14 @@
 Created on 2013-4-10
 @author: corleone
 '''
-from bot.configutil import ConfigFile
 from const import FetchProxySpiderConst, AppConst
 from multiprocessing.process import Process
 from scrapy.cmdline import execute
 from scrapy.settings import CrawlerSettings
-import os
 import time
 from bot.config import configdata
 
 def fetch51freeproxy():
-    configdata = ConfigFile.readconfig(os.sep.join([os.path.curdir, 'fetchproxy.cfg']))
     values = configdata.get(FetchProxySpiderConst.FetchProxySettings, {})
     settings = CrawlerSettings(values=values)
     execute(argv=["scrapy", "crawl", "FOSpider" ], settings=settings)
