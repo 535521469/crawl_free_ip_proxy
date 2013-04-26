@@ -2,7 +2,6 @@
 '''
 Created on 2013-3-3
 @author: Administrator
-
 '''
 from string import Formatter
 from UserDict import UserDict

@@ -3,12 +3,11 @@
 Created on 2013-4-24
 @author: corleone
 '''
-from bot.const import HTTPProxyValueConst
+from bot.const import HTTPProxyValueConst as vc
 from bot.dbitem import HTTPProxy
 from bot.dbutil import FetchSession
 from fiveone.items import IPProxyItem, HTTPProxyConst
 from functools import wraps
-import datetime
 from scrapy import log
 
 def save_item_2_db(parse):
@@ -30,15 +29,22 @@ def save_item_2_db(parse):
                         hp.ip = rs[HTTPProxyConst.ip].strip()
                         hp.port = rs[HTTPProxyConst.port].strip()
                         hp.procotol = rs[HTTPProxyConst.procotol].strip()
-                        hp.fetcheddatetime = datetime.datetime.now()
-                        hp.validflag = HTTPProxyValueConst.validflag_null
+                        hp.validflag = vc.validflag_null
                         fs.add(hp)
+                        msg = (u'add new %s proxy %s:%s ' % (hp.procotol,
+                                                             hp.ip, hp.port))
+                        self.log(msg, log.INFO)
                     else:
-                        hp.fetcheddatetime = datetime.datetime.now()
-                        hp.validflag = HTTPProxyValueConst.validflag_null
+                        if unicode(hp.validflag) != vc.validflag_no:
+                            msg = (u'reflush %s proxy %s:%s %s to '
+                                   '%s' % (hp.procotol, hp.ip, hp.port,
+                                         hp.validflag, vc.validflag_null))
+                            hp.validflag = vc.validflag_null
+                            self.log(msg, log.INFO)
+                            
             except Exception as e:
                 fs.rollback()
-                self.log(u'save proxy 2 db error %s'%str(e),log.CRITICAL)
+                self.log(u'save proxy 2 db error %s' % str(e), log.CRITICAL)
             else:
                 fs.commit()
             finally:

@@ -18,8 +18,8 @@ class HTTPProxy(Base):
     seqid = Column("SEQID", String, primary_key=True, default=gen_uuid)
     procotol = Column("Procotol", String,)
     ip = Column("IP", String,)
-    port = Column("PORT", String,)
-    fetcheddatetime = Column("FetchedDateTime", DateTime,)
+    port = Column("Port", String,)
+    validdatetime = Column("ValidDateTime", DateTime,)
     validflag = Column("ValidFlag", String,)
 
     
