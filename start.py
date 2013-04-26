@@ -32,7 +32,6 @@ if __name__ == '__main__':
     
     p_dict = {}
     frequence = configdata[AppConst.app_config].get(AppConst.app_config_frequence, 1800)
-    print frequence
     frequence = int(frequence)
     while 1:
         enqueue(fetch51freeproxy, p_dict)

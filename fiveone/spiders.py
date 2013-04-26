@@ -30,6 +30,7 @@ class FOSpider(FiveOneHomeSpider):
             td_tags = tr_tag.select('td/text()').extract()
             if td_tags:
                 idx_td, ip_td, port_td, country_td = td_tags
+                if country_td != u'CN':continue
                 ipi = IPProxyItem()
                 ipi[HTTPProxyConst.ip] = ip_td
                 ipi[HTTPProxyConst.port] = port_td
