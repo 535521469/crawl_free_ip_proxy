@@ -3,10 +3,12 @@
 Created on 2013-4-10
 @author: corleone
 '''
-from fiveone.items import IPProxyItem
+from fiveone.items import IPProxyItem, HTTPProxyConst
 from scrapy.http import Request
 from scrapy.selector import HtmlXPathSelector
 from scrapy.spider import BaseSpider
+from scrapy import log
+from fiveone.tools import save_item_2_db
 
 class FiveOneHomeSpider(BaseSpider):
     name = u"FiveOneHomeSpider"
@@ -16,13 +18,15 @@ class FiveOneNewHTTPProxySpider(FiveOneHomeSpider):
     
     name = u"FiveOneNewHTTPProxySpider"
     
-    start_urls = [u'%shttp_fast.html' % FiveOneHomeSpider.home_page,
+    start_urls = [
+                  u'%shttp_fast.html' % FiveOneHomeSpider.home_page,
                   #=============================================================
-#                   u'%shttp_anonymous.html' % FiveOneHomeSpider.home_page,
-#                   u'%shttp_non_anonymous.html' % FiveOneHomeSpider.home_page,
+                   u'%shttp_anonymous.html' % FiveOneHomeSpider.home_page,
+                   u'%shttp_non_anonymous.html' % FiveOneHomeSpider.home_page,
                   #=============================================================
                   ]
     
+    @save_item_2_db
     def parse(self, response):
         hxs = HtmlXPathSelector(response)
         tb_tags = hxs.select(u'//div[@id="tb"]/table')
@@ -33,15 +37,15 @@ class FiveOneNewHTTPProxySpider(FiveOneHomeSpider):
             if td_tags:
                 idx_td, ip_td, port_td, country_td = td_tags
                 ipi = IPProxyItem()
-                ipi['ip'] = ip_td
-                ipi['port'] = port_td
-                try:
-                    map(int, ip_td.split(u'.'))
-                except Exception:
-                    continue
+                ipi[HTTPProxyConst.ip] = ip_td
+                ipi[HTTPProxyConst.port] = port_td
+                ipi[HTTPProxyConst.procotol] = u"http"
                 
-                with open(u'proxy.txt', 'a') as f:
-                    f.write(u'http://%s:%s\n' % (ip_td, port_td))
+                http_msg = u"%s://%s:%s" % (ipi[HTTPProxyConst.procotol], ip_td, port_td)
+                self.log(http_msg, log.INFO)
+                
+                with open(u'proxy.txt', u'a') as f:
+                    f.write(http_msg + u'\n')
                 
                 yield ipi
                 
@@ -56,7 +60,6 @@ class BaiDuHomePageSpider(BaseSpider):
             proxies = map(str.strip, f.readlines())
         
         for proxy in proxies:
-            print proxy
             yield Request(u'http://www.baidu.com',
                           meta={u'proxy':proxy},
                           dont_filter=True)

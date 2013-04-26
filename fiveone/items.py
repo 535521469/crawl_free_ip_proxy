@@ -7,7 +7,14 @@ from scrapy.item import Item, Field
 
 class IPProxyItem(Item):
     
+    procotol = Field()
     ip = Field()
     port = Field()
-    country = Field()
+
+class HTTPProxyConst(object):
+    
+    ip = u'ip'
+    port = u'port'
+    procotol = u'procotol'
+
     
