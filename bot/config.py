@@ -7,7 +7,7 @@ from bot.configutil import ConfigFile
 import os
 
 def read_config():
-    cfg_path = os.sep.join([os.getcwd(), os.sep.join([os.curdir, 'fetchproxy.cfg'])])
+    cfg_path = os.sep.join([os.getcwd(), os.curdir, 'fetchproxy.cfg'])
     configdata = ConfigFile.readconfig(cfg_path).data
     return configdata 
 
