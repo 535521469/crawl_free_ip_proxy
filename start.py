@@ -37,10 +37,3 @@ if __name__ == '__main__':
         enqueue(fetch51freeproxy, p_dict)
         time.sleep(frequence)
 
-#    print f51fp.daemon
-#    f51fp.join()
-    
-    
-    
-
-

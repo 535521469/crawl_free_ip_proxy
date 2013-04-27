@@ -3,7 +3,6 @@
 Created on 2013-4-26
 @author: corleone
 '''
-
 class ScrapyConst(object):
     BOT_NAME = u'BOT_NAME'
     SPIDER_MODULES = u'SPIDER_MODULES'

@@ -31,12 +31,12 @@ def save_item_2_db(parse):
                         hp.procotol = rs[HTTPProxyConst.procotol].strip()
                         hp.validflag = vc.validflag_null
                         fs.add(hp)
-                        msg = (u'add new %s proxy %s:%s ' % (hp.procotol,
+                        msg = (u'++ %s %s:%s' % (hp.procotol,
                                                              hp.ip, hp.port))
                         self.log(msg, log.INFO)
                     else:
                         if unicode(hp.validflag) != vc.validflag_no:
-                            msg = (u'reflush %s proxy %s:%s %s to '
+                            msg = (u'** %s %s:%s %s to '
                                    '%s' % (hp.procotol, hp.ip, hp.port,
                                          hp.validflag, vc.validflag_null))
                             hp.validflag = vc.validflag_null
