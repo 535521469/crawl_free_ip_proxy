@@ -14,13 +14,11 @@ class FiveOneHomeSpider(BaseSpider):
 
 class FOSpider(FiveOneHomeSpider):
     name = u"FOSpider"
-    start_urls = [
-                  u'%shttp_fast.html' % FiveOneHomeSpider.home_page,
-                  #=============================================================
-                   u'%shttp_anonymous.html' % FiveOneHomeSpider.home_page,
-                   u'%shttp_non_anonymous.html' % FiveOneHomeSpider.home_page,
-                  #=============================================================
-                  ]
+#    start_urls = [
+#                  u'%shttp_fast.html' % FiveOneHomeSpider.home_page,
+#                   u'%shttp_anonymous.html' % FiveOneHomeSpider.home_page,
+#                   u'%shttp_non_anonymous.html' % FiveOneHomeSpider.home_page,
+#                  ]
     
     @save_item_2_db
     def parse(self, response):
@@ -36,7 +34,24 @@ class FOSpider(FiveOneHomeSpider):
                 ipi[HTTPProxyConst.port] = port_td
                 ipi[HTTPProxyConst.procotol] = u"http"
                 yield ipi
-                
         
+class FONEWSpider(FOSpider):
+    name = u"FONEWSpider"
+    start_urls = [
+                  u'%shttp_fast.html' % FiveOneHomeSpider.home_page,
+                  ]
+
+class FONonAnonymousSpider(FOSpider):
+    name = u"FONonAnonymousSpider"
+    start_urls = [
+                  u'%shttp_non_anonymous.html' % FiveOneHomeSpider.home_page,
+                  ]
+
+class FOAnonymousSpider(FOSpider):
+    name = u"FOAnonymousSpider"
+    start_urls = [
+                  u'%shttp_anonymous.html' % FiveOneHomeSpider.home_page,
+                  ]
     
+
     

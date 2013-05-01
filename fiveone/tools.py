@@ -9,6 +9,7 @@ from bot.dbutil import FetchSession
 from fiveone.items import IPProxyItem, HTTPProxyConst
 from functools import wraps
 from scrapy import log
+import datetime
 
 def save_item_2_db(parse):
     
@@ -30,17 +31,19 @@ def save_item_2_db(parse):
                         hp.port = rs[HTTPProxyConst.port].strip()
                         hp.procotol = rs[HTTPProxyConst.procotol].strip()
                         hp.validflag = vc.validflag_null
+                        hp.fetchdate = datetime.date.today()
                         fs.add(hp)
                         msg = (u'++ %s %s:%s' % (hp.procotol,
                                                              hp.ip, hp.port))
                         self.log(msg, log.INFO)
                     else:
-                        if unicode(hp.validflag) != vc.validflag_no:
-                            msg = (u'** %s %s:%s %s to '
-                                   '%s' % (hp.procotol, hp.ip, hp.port,
-                                         hp.validflag, vc.validflag_null))
+                        hp.fetchdate = datetime.date.today()
+                        if unicode(hp.validflag) == vc.validflag_no:
                             hp.validflag = vc.validflag_null
-                            self.log(msg, log.INFO)
+                        msg = (u'** %s %s:%s %s to '
+                               '%s' % (hp.procotol, hp.ip, hp.port,
+                                     hp.validflag, vc.validflag_null))
+                        self.log(msg, log.INFO)
                             
             except Exception as e:
                 fs.rollback()

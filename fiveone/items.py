@@ -15,6 +15,7 @@ class IPProxyItem(Item):
 #  Port VARCHAR(16) NOT NULL COMMENT '端口',
 #  ValidDateTime datetime default null comment '验证有效时间',
 #  ValidFlag varchar(4) not null comment '有效标识|0:无效;1:有效;2未验证',
+#  FetchDate Date not null comment '抓取时间'
 #  primary key (SEQID)  
 #  )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='代理信息';
 #===============================================================================
